@@ -1,0 +1,48 @@
+
+pack2.png
+size: 2048,512
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+cup_text_en
+  rotate: false
+  xy: 1154, 312
+  size: 447, 70
+  orig: 447, 70
+  offset: 0, 0
+  index: -1
+cup_text_tr
+  rotate: false
+  xy: 2, 2
+  size: 505, 66
+  orig: 505, 66
+  offset: 0, 0
+  index: -1
+logo_en
+  rotate: false
+  xy: 578, 70
+  size: 574, 312
+  orig: 574, 312
+  offset: 0, 0
+  index: -1
+logo_tr
+  rotate: false
+  xy: 2, 70
+  size: 574, 312
+  orig: 574, 312
+  offset: 0, 0
+  index: -1
+stamp_en
+  rotate: false
+  xy: 1154, 60
+  size: 250, 250
+  orig: 250, 250
+  offset: 0, 0
+  index: -1
+stamp_tr
+  rotate: false
+  xy: 1406, 60
+  size: 250, 250
+  orig: 250, 250
+  offset: 0, 0
+  index: -1

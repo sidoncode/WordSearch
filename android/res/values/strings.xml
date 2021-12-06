@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Game title -->
+    <!-- Oyunun başlığı -->
+    <string name="app_name">Modern Word Search</string>
+
+    <!-- The http links to your policy files. They are displayed in the privacy dialog -->
+    <!-- Gizlilik diyaloğunda gösterilen linklerin adresleri (eğer varsa) -->
+    <string name="privacy_policy_url">https://link_to_your_privacy_policy</string>
+    <string name="terms_of_use_url">https://link_to_your_tos</string>
+
+
+    <!-- Your email address for support request in the game menu, you will receive emails to this address -->
+    <!-- E-posta adresiniz. Oyun menüsünden e-posta gönderilince bu adrese gider.-->
+    <string name="email">your_email_address</string>
+
+
+    <!-- IAP CONFIGURATION. You must also edit the IAPActivity.java file-->
+    <!-- SATIN ALMA AYARLARI. Ek olarak IAPActivity.java dosyasını da düzenlemeniz gerekli-->
+    <bool name="ENABLE_IAP">true</bool>
+
+
+
+
+    <!-- ADMOB CONFIGURATION - ADMOB AYARLARI-->
+
+    <!-- Use/don't use ads-->
+    <!-- Reklam göster/gösterme -->
+    <bool name="ADMOB_REWARDED_AD_ENABLED">true</bool>
+    <bool name="ADMOB_INTERSTITIAL_AD_ENABLED">true</bool>
+
+    <!-- The user can watch only one rewarded video in a level. This might lead you to more IAP. -->
+    <!-- Her bir seviyede sadece bir ödüllü reklam gösterir. Bu satın almaları artırabilir. -->
+    <bool name="ALLOW_ONLY_ONE_REWARDED_AD_PER_LEVEL">false</bool>
+
+
+    <!-- After creating your a rewarded and an interstitial ad, enter their ids below along with your admob app id-->
+    <!-- Admob sitesinde bir rewarded ve interstitial reklam oluşturduktan sonra bunların id'lerini ve app id'yi aşağıya girin.-->
+    <string name="ADMOB_APP_ID">ca-app-pub-3097498565848065~3656844062</string>
+    <string name="ADMOB_REWARDED_AD_UNIT_ID">PASTE_YOUR_REWARDED_AD_UNIT_ID_HERE</string>
+    <string name="ADMOB_INTERSTITIAL_AD_UNIT_ID">PASTE_YOUR_INTERSTITIAL_AD_UNIT_ID_HERE</string>
+
+
+
+    <!-- If an ad fails to load how many seconds should elapse to try a new one? Don't make it too short
+      or google will not serve you ads due to too many requests.-->
+
+    <!-- Reklam yüzlemesi başarısız olursa, bir sonraki yükleme denemesi kaç saniye sonra olsun? Bu sayıyı
+      çok düşürmeyin, aksi takdirde fazla istekten dolayı google uygulamanıza reklam göndermez-->
+    <integer name="retry_ads_after">180</integer>
+
+
+
+    <!-- If you enable this option you should also take into account the device hash code right below -->
+    <!-- Admob test modunu aktive etmek için. Bir sonraki ayara dikkat! -->
+    <bool name="TESTING_ADMOB_ADS">true</bool>
+
+
+    <!-- In order to test ads open logcat and search for "addTestDevice or setTestDeviceIds", then copy the hash code in that line below.
+        Hash id for emulator is already embedded in code for you (it is a constant value) -->
+    <!-- Oyunu gerçek cihazla test etmek için aşağıya cihaz kodunu girin. Oyunu cihaza yükleyin, logcat panelinde "addTestDevice" veya "setTestDeviceIds"
+        değerini aşağıya yapıştırın.-->
+    <string name="HARDWARE_DEVICE_HASH_ID_FOR_TESTING_ADMOB">708099EBDA51F19077F69822062A74C3</string>
+
+
+    <!-- Your device will behave as if it were in a European country. You need a real device to test. Don't forget to make it false later -->
+    <!-- GDPR diyaloğunu test etmek için. Test için gerçek cihaz kullanın. İşiniz bitince false yapmayı unutmayın -->
+    <bool name="TESTING_GDPR_CONSENT">false</bool>
+
+
+
+    <!-- Settings Menu - Ayar Menüsü -->
+
+    <!-- Ask users to accept terms on first install and run-->
+    <!-- Uygulama ilk kurulup açıldığında kullanıcıya gizlilik şartı -->
+    <bool name="SHOW_PRIVACY_DIALOG_ON_FIRST_RUN">true</bool>
+
+    <!-- Will privacy dialog be visible in the game menu -->
+    <!-- Gizlilik diyaloğu oyun menüsünde görünsün mü? -->
+    <bool name="SHOW_PRIVACY_DIALOG_IN_SETTINGS_DIALOG">true</bool>
+
+
+    <!-- Show terms of use of not -->
+    <!-- Kullanım koşulları linki olsun mu, olmasın mı? -->
+    <bool name="TERMS_OF_USE_LINK_AVAILABLE">true</bool>
+
+
+    <!-- Google play rate and review us button option in settings menu-->
+    <!-- Ayarlar menüsündeki değerlendirme butonu için-->
+    <bool name="RATE_US_ENABLED">true</bool>
+
+
+    <!-- Share button -->
+    <!-- Paylaşma butonu -->
+    <bool name="APP_SHARE_ENABLED">true</bool>
+
+
+    <!-- Send email button -->
+    <!-- Email gönder butonu -->
+    <bool name="EMAIL_SUPPORT_ENABLED">true</bool>
+
+</resources>
