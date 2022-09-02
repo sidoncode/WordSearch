@@ -16,9 +16,13 @@ import com.android.billingclient.api.BillingFlowParams;
 import com.android.billingclient.api.BillingResult;
 import com.android.billingclient.api.ConsumeParams;
 import com.android.billingclient.api.ConsumeResponseListener;
+import com.android.billingclient.api.ProductDetails;
+import com.android.billingclient.api.ProductDetailsResponseListener;
 import com.android.billingclient.api.Purchase;
 import com.android.billingclient.api.PurchasesResponseListener;
 import com.android.billingclient.api.PurchasesUpdatedListener;
+import com.android.billingclient.api.QueryProductDetailsParams;
+import com.android.billingclient.api.QueryPurchasesParams;
 import com.android.billingclient.api.SkuDetails;
 import com.android.billingclient.api.SkuDetailsParams;
 import com.android.billingclient.api.SkuDetailsResponseListener;
@@ -87,7 +91,7 @@ public class IAPActivity extends AndroidApplication implements PurchasesUpdatedL
     private List<ShoppingItem> items = new ArrayList<>();
     private BillingClient billingClient;
     private ShoppingCallback shoppingCallback;
-    private List<SkuDetails> skuDetailsList;
+    private List<ProductDetails> skuDetailsList;
     protected boolean isInterstitialEnabled = true;
     protected boolean purchasedRemovedAds = true;
     private List<ShoppingItem> itemsToDisplay = new ArrayList<>();
@@ -130,13 +134,15 @@ public class IAPActivity extends AndroidApplication implements PurchasesUpdatedL
     public void queryPurchases(){
         if(billingClient == null) return;
 
-        billingClient.queryPurchasesAsync(BillingClient.SkuType.INAPP, new PurchasesResponseListener(){
+        billingClient.queryPurchasesAsync(
+                QueryPurchasesParams.newBuilder().setProductType(BillingClient.ProductType.INAPP).build(),
+                new PurchasesResponseListener() {
+                    public void onQueryPurchasesResponse(BillingResult billingResult, List<Purchase> list) {
+                        if(list != null) handlePurchases(list);
+                    }
+                }
+        );
 
-            @Override
-            public void onQueryPurchasesResponse(@NonNull BillingResult billingResult, @NonNull List<Purchase> list) {
-                if(list != null) handlePurchases(list);
-            }
-        });
     }
 
 
@@ -155,28 +161,26 @@ public class IAPActivity extends AndroidApplication implements PurchasesUpdatedL
 
     void handlePurchase(Purchase purchase){
         if(purchase == null) return;
-        Log.d("iap", "Found purchase:"+purchase.getSkus().get(0)+", purchase state:"+purchase.getPurchaseState());
+        Log.d("iap", "Found purchase:"+purchase.getProducts().get(0)+", purchase state:"+purchase.getPurchaseState());
         if(purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED){
 
             boolean resetRemoveAdsPurchase = false;
-
             if(resetRemoveAdsPurchase) {
                 ConsumeParams consumeParams = ConsumeParams.newBuilder().setPurchaseToken(purchase.getPurchaseToken()).build();
                 billingClient.consumeAsync(consumeParams, consumeResponseListener);
             }else{
                 if(!purchase.isAcknowledged()) {
-
-                    if (purchase.getSkus().get(0).equals(SKU_REMOVE_ADS)) {
+                    if (purchase.getProducts().get(0).equals(SKU_REMOVE_ADS)) {
                         AcknowledgePurchaseParams acknowledgePurchaseParams = AcknowledgePurchaseParams.newBuilder().setPurchaseToken(purchase.getPurchaseToken()).build();
                         billingClient.acknowledgePurchase(acknowledgePurchaseParams, acknowledgePurchaseResponseListener);
                     } else {
                         ConsumeParams consumeParams = ConsumeParams.newBuilder().setPurchaseToken(purchase.getPurchaseToken()).build();
                         billingClient.consumeAsync(consumeParams, consumeResponseListener);
                     }
-                    hasMadeAPurchase(purchase.getSkus().get(0), true);
+                    hasMadeAPurchase(purchase.getProducts().get(0), true);
                 }else{
-                    if (purchase.getSkus().get(0).equals(SKU_REMOVE_ADS)) {
-                        hasMadeAPurchase(purchase.getSkus().get(0), false);
+                    if (purchase.getProducts().get(0).equals(SKU_REMOVE_ADS)) {
+                        hasMadeAPurchase(purchase.getProducts().get(0), false);
                     }
                 }
             }
@@ -254,18 +258,22 @@ public class IAPActivity extends AndroidApplication implements PurchasesUpdatedL
             skuList.add(item.sku);
         }
 
-        SkuDetailsParams.Builder params = SkuDetailsParams.newBuilder();
-        params.setSkusList(skuList).setType(BillingClient.SkuType.INAPP);
-        billingClient.querySkuDetailsAsync(params.build(), skuDetailsResponseListener);
+
+        ArrayList<QueryProductDetailsParams.Product> productList = new ArrayList<>();
+        for(String sku : skuList) {
+            productList.add(QueryProductDetailsParams.Product.newBuilder().setProductId(sku).setProductType(BillingClient.ProductType.INAPP).build());
+        }
+
+        QueryProductDetailsParams params = QueryProductDetailsParams.newBuilder().setProductList(productList).build();
+        billingClient.queryProductDetailsAsync(params, productDetailsResponseListener);
     }
 
 
 
 
-    SkuDetailsResponseListener skuDetailsResponseListener = new SkuDetailsResponseListener() {
-
+    ProductDetailsResponseListener productDetailsResponseListener = new ProductDetailsResponseListener() {
         @Override
-        public void onSkuDetailsResponse(@NonNull BillingResult billingResult, @Nullable List<SkuDetails> list) {
+        public void onProductDetailsResponse(@NonNull BillingResult billingResult, @NonNull List<ProductDetails> list) {
             if(list == null){
                 reportItemRetrivalError(-100);
                 return;
@@ -277,13 +285,12 @@ public class IAPActivity extends AndroidApplication implements PurchasesUpdatedL
                 reportItemRetrivalError(billingResult.getResponseCode());
             }
         }
-
     };
 
 
 
 
-    public void returnShoppingItems(List<SkuDetails> list){
+    public void returnShoppingItems(List<ProductDetails> list){
         if(list == null) {
             shoppingCallback.onShoppingItemsError(-1);
             return;
@@ -293,10 +300,10 @@ public class IAPActivity extends AndroidApplication implements PurchasesUpdatedL
         itemsToDisplay.clear();
 
         for(ShoppingItem offlineItem : items){
-            inner:for(SkuDetails skuDetails : list){
-                if(offlineItem.sku.equals(skuDetails.getSku())){
-                    offlineItem.price = skuDetails.getPrice();
-                    if(skuDetails.getSku().equals(SKU_REMOVE_ADS) && !isInterstitialEnabled && purchasedRemovedAds) break inner;
+            inner:for(ProductDetails skuDetails : list){
+                if(offlineItem.sku.equals(skuDetails.getProductId())){
+                    offlineItem.price = skuDetails.getOneTimePurchaseOfferDetails().getFormattedPrice();
+                    if(skuDetails.getProductId().equals(SKU_REMOVE_ADS) && !isInterstitialEnabled && purchasedRemovedAds) break inner;
                     itemsToDisplay.add(offlineItem);
                     break inner;
                 }
@@ -334,13 +341,16 @@ public class IAPActivity extends AndroidApplication implements PurchasesUpdatedL
         Log.d("iap", "START PURCHASE, product id to purchase:."+productId);
 
         if(billingClient != null){
-            for(SkuDetails skuDetails : skuDetailsList){
-                if(skuDetails.getSku().equals(productId)){
-                    BillingFlowParams flowParams = BillingFlowParams.newBuilder().setSkuDetails(skuDetails).build();
+            for(ProductDetails skuDetails : skuDetailsList){
+                if(skuDetails.getProductId().equals(productId)){
+                    List<BillingFlowParams.ProductDetailsParams> productDetailsParamsList = new ArrayList<>();
+                    productDetailsParamsList.add(BillingFlowParams.ProductDetailsParams.newBuilder().setProductDetails(skuDetails).build());
+
+                    BillingFlowParams billingFlowParams = BillingFlowParams.newBuilder().setProductDetailsParamsList(productDetailsParamsList).build();
                     Log.d("iap", "billingClient.isReady(): " + billingClient.isReady());
-                    BillingResult result = billingClient.launchBillingFlow(this, flowParams);
-                    if(result.getResponseCode() != BillingClient.BillingResponseCode.OK)
-                        Log.d("iap", "Failed to start purchase, error code:"+result.getResponseCode()+", "+result.getDebugMessage());
+                    BillingResult billingResult = billingClient.launchBillingFlow(this, billingFlowParams);
+                    if(billingResult.getResponseCode() != BillingClient.BillingResponseCode.OK)
+                        Log.d("iap", "Failed to start purchase, error code:"+billingResult.getResponseCode()+", "+billingResult.getDebugMessage());
                     break;
                 }
             }

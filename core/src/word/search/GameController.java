@@ -236,11 +236,25 @@ public class GameController {
 
         @Override
         public void run() {
+            boolean shouldWeShow = GameConfig.shouldWeShowAnInterstitialAd(gameScreen.gameController.level.index);
+            boolean isInterstitialEnabled = gameScreen.wordGame.adManager.isInterstitialAdEnabled();
+            boolean isInterstitialAdLoaded = gameScreen.wordGame.adManager.isInterstitialAdLoaded();
+            if(shouldWeShow && isInterstitialEnabled && isInterstitialAdLoaded) {
+                gameScreen.wordGame.adManager.showInterstitialAd(interstitialAdClosed);
+            }else {
+                gameScreen.hideLevel();
+                gameScreen.gameScreenHud.hideLevel(levelFinished2);
+            }
+        }
+    };
+
+
+    private Runnable interstitialAdClosed = new Runnable() {
+        @Override
+        public void run() {
             gameScreen.hideLevel();
             gameScreen.gameScreenHud.hideLevel(levelFinished2);
-
         }
-
     };
 
 

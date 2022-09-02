@@ -18,7 +18,7 @@ android {
     }
     defaultConfig {
         applicationId "net.codecanyon.trimax.android.wordsearchinnovation"
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 32
         versionCode 6
         versionName "1.5"

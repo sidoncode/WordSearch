@@ -384,15 +384,7 @@ public class LevelEnd extends Group {
                 }else if(label.equals(Language.get("back"))){
                     hide();
                 }else{
-                    boolean shouldWeShow = GameConfig.shouldWeShowAnInterstitialAd(gameScreen.gameController.level.index);
-                    boolean isInterstitialEnabled = gameScreen.wordGame.adManager.isInterstitialAdEnabled();
-                    boolean isInterstitialAdLoaded = gameScreen.wordGame.adManager.isInterstitialAdLoaded();
-
-                    if(shouldWeShow && isInterstitialEnabled && isInterstitialAdLoaded) {
-                        gameScreen.wordGame.adManager.showInterstitialAd(interstitialAdClosed);
-                    }else {
-                        hide();
-                    }
+                    hide();
                 }
             }
             if(actor == btnClaim){
@@ -408,12 +400,7 @@ public class LevelEnd extends Group {
 
 
 
-    private Runnable interstitialAdClosed = new Runnable() {
-        @Override
-        public void run() {
-            hide();
-        }
-    };
+
 
 
 
