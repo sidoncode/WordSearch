@@ -1,5 +1,6 @@
 package word.search.ui.dialogs;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -68,7 +69,7 @@ public class PrivacyDialog extends BaseDialog{
         TextButton.TextButtonStyle linkStyle = new TextButton.TextButtonStyle();
         linkStyle.font = screen.wordGame.resourceManager.get(ResourceManager.fontSignikaBold, BitmapFont.class);
         linkStyle.fontColor = Color.BLUE;
-
+        Gdx.app.log("game", screen.wordGame.menuConfig.termsOfUseLinkAvailable()+"");
         if (screen.wordGame.menuConfig.termsOfUseLinkAvailable()) {
             terms = new TextButton(full ? "Terms of Use" : Language.get("terms_of_use"), linkStyle);
             terms.setX((content.getWidth() - terms.getWidth()) * 0.5f);

@@ -23,7 +23,7 @@ public class MenuConfigDesktop implements MenuConfig {
 
     @Override
     public boolean termsOfUseLinkAvailable() {
-        return false;
+        return true;
     }
 
     @Override

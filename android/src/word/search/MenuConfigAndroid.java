@@ -2,6 +2,8 @@ package word.search;
 
 import android.content.Context;
 
+import com.badlogic.gdx.Gdx;
+
 import net.codecanyon.trimax.android.wordsearchinnovation.R;
 
 import word.search.platform.MenuConfig;
@@ -41,6 +43,7 @@ public class MenuConfigAndroid implements MenuConfig {
 
     @Override
     public boolean termsOfUseLinkAvailable() {
+        Gdx.app.log("gg", context.getResources().getBoolean(R.bool.TERMS_OF_USE_LINK_AVAILABLE)+"");
         return context.getResources().getBoolean(R.bool.TERMS_OF_USE_LINK_AVAILABLE);
     }
 
