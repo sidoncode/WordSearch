@@ -1,6 +1,6 @@
 android {
-    buildToolsVersion "32.0.0"
-    compileSdkVersion 32
+    buildToolsVersion "33.0.0"
+    compileSdkVersion 33
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
@@ -19,7 +19,7 @@ android {
     defaultConfig {
         applicationId "net.codecanyon.trimax.android.wordsearchinnovation"
         minSdkVersion 19
-        targetSdkVersion 32
+        targetSdkVersion 33
         versionCode 6
         versionName "1.5"
         multiDexEnabled true
