@@ -3,9 +3,6 @@ package word.search;
 import android.os.Bundle;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.AdRequest;
 
@@ -55,7 +52,7 @@ public class AdActivity extends IAPActivity implements AdManager {
 
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         isInterstitialEnabled = getResources().getBoolean(R.bool.ADMOB_INTERSTITIAL_AD_ENABLED);
         if(!getResources().getBoolean(R.bool.ADMOB_REWARDED_AD_ENABLED) && !isInterstitialEnabled) return;
@@ -97,8 +94,7 @@ public class AdActivity extends IAPActivity implements AdManager {
                 new ConsentInformation.OnConsentInfoUpdateSuccessListener() {
                     @Override
                     public void onConsentInfoUpdateSuccess() {
-                        inEUCountry = consentInformation.getConsentStatus() == ConsentInformation.ConsentStatus.REQUIRED
-                                || consentInformation.getConsentStatus() == ConsentInformation.ConsentStatus.REQUIRED;
+                        inEUCountry = consentInformation.isConsentFormAvailable();
 
                         if (consentInformation.isConsentFormAvailable() && consentInformation.getConsentStatus() == ConsentInformation.ConsentStatus.REQUIRED) {
                             loadForm();
@@ -128,7 +124,7 @@ public class AdActivity extends IAPActivity implements AdManager {
                     public void onConsentFormLoadSuccess(ConsentForm consentForm) {
                         consentForm.show(AdActivity.this, new ConsentForm.OnConsentFormDismissedListener() {
                                     @Override
-                                    public void onConsentFormDismissed(@Nullable FormError formError) {
+                                    public void onConsentFormDismissed(FormError formError) {
                                         setupAds();
                                     }
                                 });
@@ -210,14 +206,14 @@ public class AdActivity extends IAPActivity implements AdManager {
     private InterstitialAdLoadCallback interstitialAdLoadCallback = new InterstitialAdLoadCallback(){
 
         @Override
-        public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+        public void onAdLoaded(InterstitialAd interstitialAd) {
             Log.d("interstitial_ad", "Interstitial ad loaded");
             m_interstitialAd = interstitialAd;
             interstitialAd.setFullScreenContentCallback(interstitialCallback);
         }
 
         @Override
-        public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+        public void onAdFailedToLoad(LoadAdError loadAdError) {
             Log.d("interstitial_ad", "Interstitial ad failed to load: " + loadAdError.toString());
             m_interstitialAd = null;
             tryToLoadInterstitialAgain();
@@ -251,13 +247,13 @@ public class AdActivity extends IAPActivity implements AdManager {
     private RewardedAdLoadCallback rewardedAdLoadCallback = new RewardedAdLoadCallback(){
 
         @Override
-        public void onAdLoaded(@NonNull RewardedAd rewardedAd) {
+        public void onAdLoaded(RewardedAd rewardedAd) {
             Log.d("rewarded_ad", "Rewarded ad loaded");
             m_rewardedAd = rewardedAd;
         }
 
         @Override
-        public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+        public void onAdFailedToLoad(LoadAdError loadAdError) {
             Log.d("rewarded_ad", "Rewarded ad failed to load: " + loadAdError.toString());
             m_rewardedAd = null;
             tryToLoadRewardedAgain();
@@ -392,7 +388,7 @@ public class AdActivity extends IAPActivity implements AdManager {
 
     private OnUserEarnedRewardListener onUserEarnedRewardListener = new OnUserEarnedRewardListener() {
         @Override
-        public void onUserEarnedReward(@NonNull RewardItem rewardItem) {
+        public void onUserEarnedReward(RewardItem rewardItem) {
             rewardEarned = true;
         }
     };
