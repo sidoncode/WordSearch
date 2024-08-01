@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "209334375433",
+    "project_id": "wordsearch-ec7b8",
+    "storage_bucket": "wordsearch-ec7b8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:209334375433:android:3a97055b6462928b1254d8",
+        "android_client_info": {
+          "package_name": "com.violetapple.durbeen"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBx5BWtRHdMHjebncIlsz10B6k0h6cqPzU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

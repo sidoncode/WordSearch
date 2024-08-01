@@ -7,7 +7,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.os.Build;
 
-import net.codecanyon.trimax.android.wordsearchinnovation.R;
+import com.violetapple.durbeen.R;
 
 import java.util.Locale;
 

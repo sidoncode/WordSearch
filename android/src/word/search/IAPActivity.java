@@ -29,7 +29,7 @@ import com.android.billingclient.api.SkuDetailsResponseListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 
-import net.codecanyon.trimax.android.wordsearchinnovation.R;
+import com.violetapple.durbeen.R;
 
 import java.util.ArrayList;
 import java.util.Collections;

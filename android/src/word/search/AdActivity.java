@@ -26,7 +26,7 @@ import com.google.android.ump.ConsentRequestParameters;
 import com.google.android.ump.FormError;
 import com.google.android.ump.UserMessagingPlatform;
 
-import net.codecanyon.trimax.android.wordsearchinnovation.R;
+import com.violetapple.durbeen.R;
 
 import java.util.ArrayList;
 import java.util.List;

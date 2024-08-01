@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.badlogic.gdx.Gdx;
 
-import net.codecanyon.trimax.android.wordsearchinnovation.R;
+import com.violetapple.durbeen.R;
 
 import word.search.platform.MenuConfig;
 
